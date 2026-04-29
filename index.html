@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Para ti, Monita 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --rose:  #E8527A;
+    --blush: #F7C5D0;
+    --gold:  #C9973A;
+    --cream: #FFF8F2;
+    --dark:  #2D1B24;
+    --mid:   #6B3D50;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--cream); color: var(--dark); font-family: 'Lato', sans-serif; overflow-x: hidden; }
+
+  /* PÉTALOS */
+  #particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .petal { position: absolute; opacity: 0; animation: fall linear infinite; border-radius: 50% 0 50% 0; }
+  @keyframes fall {
+    0%   { transform: translateY(-40px) rotate(0deg); opacity: 0.7; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* HERO */
+  .hero {
+    position: relative; min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 60px 24px; z-index: 1;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 0%, #F7C5D033 0%, transparent 70%),
+      radial-gradient(ellipse 50% 40% at 80% 80%, #E8527A18 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .date-badge {
+    display: inline-block; background: var(--rose); color: #fff;
+    font-weight: 700; font-size: 0.72rem; letter-spacing: 0.18em;
+    text-transform: uppercase; padding: 8px 22px; border-radius: 40px;
+    margin-bottom: 32px; animation: fadeDown 0.8s ease both;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 8vw, 6rem);
+    line-height: 1.1; color: var(--dark);
+    animation: fadeDown 0.9s ease 0.1s both;
+  }
+  .hero-title em { font-style: italic; color: var(--rose); }
+  .hero-subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.3rem); color: var(--mid);
+    font-weight: 300; margin-top: 20px; max-width: 480px;
+    line-height: 1.7; animation: fadeDown 1s ease 0.2s both;
+  }
+  .scroll-hint {
+    margin-top: 56px; display: flex; flex-direction: column;
+    align-items: center; gap: 8px; color: var(--rose);
+    font-size: 0.8rem; letter-spacing: 0.1em;
+    animation: fadeDown 1s ease 0.5s both, bounce 2s ease 1.5s infinite;
+  }
+  .scroll-hint svg { width: 22px; height: 22px; }
+  @keyframes fadeDown { from { opacity:0; transform:translateY(-22px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(8px);} }
+
+  /* CARTA */
+  .letter-section { position: relative; z-index: 1; padding: 80px 24px; display: flex; justify-content: center; }
+  .letter-card {
+    background: #fff; border-radius: 24px; max-width: 680px; width: 100%;
+    padding: 60px 56px; box-shadow: 0 8px 60px #E8527A14, 0 2px 12px #E8527A0A;
+    position: relative; overflow: hidden;
+  }
+  .letter-card::before {
+    content: '❝'; font-family: 'Playfair Display', serif; font-size: 11rem;
+    color: var(--blush); position: absolute; top: -30px; left: 12px;
+    line-height: 1; opacity: 0.4;
+  }
+  .letter-card h2 { font-family:'Playfair Display',serif; font-size:1.9rem; color:var(--rose); margin-bottom:28px; position:relative; }
+  .letter-card p  { font-size:1.08rem; line-height:1.9; color:var(--mid); margin-bottom:18px; position:relative; }
+  .letter-card .firma { margin-top:36px; font-family:'Playfair Display',serif; font-style:italic; font-size:1.5rem; color:var(--gold); text-align:right; }
+
+  /* GALERÍA */
+  .photos-section { position:relative; z-index:1; padding: 40px 24px 100px; }
+  .photos-title { text-align:center; font-family:'Playfair Display',serif; font-size:clamp(1.8rem,5vw,3rem); color:var(--dark); margin-bottom:12px; }
+  .photos-title em { color:var(--rose); font-style:italic; }
+  .photos-subtitle { text-align:center; color:var(--mid); font-weight:300; font-size:0.95rem; letter-spacing:0.05em; margin-bottom:48px; }
+
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px; max-width: 1100px; margin: 0 auto;
+  }
+
+  .photo-item {
+    position: relative; border-radius: 18px; overflow: hidden;
+    aspect-ratio: 1; box-shadow: 0 4px 24px #2D1B2422;
+    cursor: pointer;
+    animation: popIn 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+  @keyframes popIn { from{opacity:0;transform:scale(0.75) rotate(-3deg);} to{opacity:1;transform:scale(1) rotate(0deg);} }
+
+  .photo-item img {
+    width:100%; height:100%; object-fit:cover;
+    transition: transform 0.4s ease; display:block;
+  }
+  .photo-item:hover img { transform: scale(1.07); }
+
+  .photo-item .caption {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, #2D1B24CC, transparent);
+    color: #fff; padding: 24px 16px 16px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic; font-size: 0.95rem;
+    opacity: 0; transition: opacity 0.3s;
+    text-align: center;
+  }
+  .photo-item:hover .caption { opacity: 1; }
+
+  /* LIGHTBOX */
+  .lightbox {
+    position: fixed; inset: 0; background: #000C;
+    backdrop-filter: blur(10px); z-index: 1000;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  }
+  .lightbox.open { opacity:1; pointer-events:all; }
+  .lightbox img {
+    max-width: 90vw; max-height: 88vh; border-radius: 16px;
+    box-shadow: 0 24px 80px #000a;
+    transform: scale(0.88); transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .lightbox.open img { transform: scale(1); }
+  .lightbox-close {
+    position: absolute; top: 24px; right: 28px;
+    background: none; border: none; color: #fff;
+    font-size: 2rem; cursor: pointer; line-height: 1;
+  }
+  .lb-caption {
+    position: absolute; bottom: 30px; left: 0; right: 0;
+    text-align: center; color: #fff;
+    font-family: 'Playfair Display', serif; font-style: italic;
+    font-size: 1.05rem; text-shadow: 0 2px 8px #0008;
+  }
+
+  /* FOOTER */
+  .footer { position:relative; z-index:1; text-align:center; padding:40px 24px 60px; color:var(--mid); font-weight:300; font-size:0.88rem; }
+  .heart { display:inline-block; color:var(--rose); font-size:1.5rem; animation: heartbeat 1.4s ease infinite; }
+  @keyframes heartbeat { 0%,100%{transform:scale(1);} 14%{transform:scale(1.3);} 28%{transform:scale(1);} 42%{transform:scale(1.2);} 56%{transform:scale(1);} }
+
+  /* DIVIDER */
+  .divider { position:relative; z-index:1; height:1px; background:linear-gradient(to right, transparent, var(--blush), transparent); max-width:480px; margin:0 auto; }
+
+  @media (max-width:600px) {
+    .letter-card { padding:40px 28px; }
+    .photo-grid { grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap:12px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="particles"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="date-badge">🌹 1 de Mayo · Día del Trabajador</span>
+  <h1 class="hero-title">Para ti,<br><em>Monita</em> 🌸</h1>
+  <p class="hero-subtitle">Desde Lima te pienso, desde Lima te extraño... y desde acá te admiro cada día más, Monita.</p>
+  <div class="scroll-hint">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+    </svg>
+    Desplázate
+  </div>
+</section>
+
+<!-- CARTA -->
+<section class="letter-section">
+  <div class="letter-card reveal">
+    <h2>Miriam, mi Monita...</h2>
+    <p>
+      Hoy, en este <strong>Día del Trabajador</strong>, quiero celebrar a la mujer que cada día le devuelve algo tan invaluable a las personas: la posibilidad de <em>ver el mundo con claridad</em>. Tú, que te conviertes en la diferencia entre ver borroso y ver nítido, entre la limitación y la libertad.
+    </p>
+    <p>
+      Ser optómetra no es solo una profesión para ti, Monita — es tu vocación, tu forma de amar al mundo. Te imagino en Pucallpa, con tu paciencia infinita, escuchando a cada paciente, cuidando cada detalle, porque sabes que detrás de unos ojos hay una persona que merece ver la vida en su mejor versión.
+    </p>
+    <p>
+      Desde Lima, con 800 kilómetros de por medio, te extraño más de lo que cualquier palabra puede describir. Extraño tu voz, tu risa, tus manos. Pero también me llena de orgullo saber que esa distancia existe porque estás cumpliendo tu propósito: ayudando a personas que te necesitan.
+    </p>
+    <p>
+      Gracias por recordarme que la vida se ve más bonita cuando hay alguien como tú que cuida la visión de todos... incluida la mía. ¡Feliz Día del Trabajador, mi Monita hermosa! 🌸
+    </p>
+    <div class="firma">Con todo mi amor, desde Lima ♥</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DISTANCIA -->
+<section class="distance-section reveal">
+  <div class="distance-card">
+    <div class="city from">
+      <div class="city-dot"></div>
+      <span class="city-name">Lima</span>
+      <span class="city-sub">Donde estoy yo,<br>extrañándote</span>
+    </div>
+
+    <div class="route">
+      <div class="route-line">
+        <div class="plane">✈</div>
+      </div>
+      <div class="route-km">≈ 800 km</div>
+      <div class="route-hearts">♥ ♥ ♥</div>
+    </div>
+
+    <div class="city to">
+      <div class="city-dot"></div>
+      <span class="city-name">Pucallpa</span>
+      <span class="city-sub">Donde estás tú,<br>cuidando miradas</span>
+    </div>
+  </div>
+  <p class="distance-note">La distancia mide kilómetros, no lo mucho que te quiero 🌸</p>
+</section>
+
+<style>
+  .distance-section { position:relative; z-index:1; padding:60px 24px; text-align:center; }
+  .distance-card {
+    display: flex; align-items: center; justify-content: center;
+    gap: 0; max-width: 680px; margin: 0 auto 24px;
+    background: #fff; border-radius: 24px;
+    box-shadow: 0 6px 40px #E8527A12;
+    padding: 48px 40px;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .city { display:flex; flex-direction:column; align-items:center; gap:10px; flex:1; min-width:120px; }
+  .city-dot {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--rose); box-shadow: 0 0 0 6px #E8527A22;
+  }
+  .city.to .city-dot { background: var(--gold); box-shadow: 0 0 0 6px #C9973A22; }
+  .city-name { font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:700; color:var(--dark); }
+  .city-sub { font-size:0.8rem; color:var(--mid); font-weight:300; line-height:1.5; }
+
+  .route { display:flex; flex-direction:column; align-items:center; gap:6px; flex:2; min-width:160px; }
+  .route-line {
+    width: 100%; height: 2px; background: linear-gradient(to right, var(--rose), var(--gold));
+    border-radius: 2px; position: relative;
+  }
+  .plane {
+    position: absolute; top: 50%; left: 0;
+    transform: translateY(-50%);
+    font-size: 1.3rem;
+    animation: flyPlane 4s ease-in-out infinite;
+  }
+  @keyframes flyPlane {
+    0%   { left: 0%;   opacity:1; }
+    45%  { left: 90%;  opacity:1; }
+    50%  { left: 90%;  opacity:0; }
+    51%  { left: 0%;   opacity:0; }
+    55%  { left: 0%;   opacity:1; }
+    100% { left: 0%;   opacity:1; }
+  }
+  .route-km { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--rose); }
+  .route-hearts { font-size:0.85rem; color:var(--blush); letter-spacing:4px; }
+  .distance-note { font-family:'Playfair Display',serif; font-style:italic; color:var(--mid); font-size:1.05rem; }
+</style>
+
+<!-- ══════════════════════════════════════════════
+     GALERÍA DE FOTOS
+     ══════════════════════════════════════════════
+     CÓMO AGREGAR TUS FOTOS:
+     1. Pon tus imágenes en la misma carpeta que este archivo
+        (o en una subcarpeta llamada "fotos/")
+     2. En cada .photo-item, reemplaza:
+           src="fotos/foto1.jpg"   ← nombre de tu archivo
+           data-caption="..."      ← texto que aparece al pasar el mouse (opcional)
+     3. Para agregar MÁS fotos: copia un bloque completo
+        de <div class="photo-item">...</div> y pégalo
+     4. Para QUITAR una foto: elimina el bloque completo
+═══════════════════════════════════════════════════ -->
+<section class="photos-section reveal">
+  <h2 class="photos-title">800 km de <em>recuerdos</em> 📸</h2>
+  <p class="photos-subtitle">La distancia separa cuerpos, pero nunca los momentos que ya vivimos juntos</p>
+
+  <div class="photo-grid" id="photoGrid">
+
+    <!-- ── FOTO 1 ── Reemplaza src con tu imagen -->
+    <div class="photo-item" data-caption="Mi Monita hermosa ♥">
+      <img src="fotos/foto1.jpg" alt="Foto 1"/>
+      <div class="caption">Mi Monita hermosa ♥</div>
+    </div>
+
+    <!-- ── FOTO 2 ── -->
+    <div class="photo-item" data-caption="Juntos siempre 🌸">
+      <img src="fotos/foto2.jpg" alt="Foto 2"/>
+      <div class="caption">Juntos siempre 🌸</div>
+    </div>
+
+    <!-- ── FOTO 3 ── -->
+    <div class="photo-item" data-caption="Te amo, Miriam 💕">
+      <img src="fotos/foto3.jpg" alt="Foto 3"/>
+      <div class="caption">Te amo, Miriam 💕</div>
+    </div>
+
+    <!-- ── FOTO 4 ── -->
+    <div class="photo-item" data-caption="Nuestro momento favorito ✨">
+      <img src="fotos/foto4.jpg" alt="Foto 4"/>
+      <div class="caption">Nuestro momento favorito ✨</div>
+    </div>
+
+    <!-- ── FOTO 5 ── -->
+    <div class="photo-item" data-caption="Recuerdos que atesoro 🌹">
+      <img src="fotos/foto5.jpg" alt="Foto 5"/>
+      <div class="caption">Recuerdos que atesoro 🌹</div>
+    </div>
+
+    <!-- ── FOTO 6 ── -->
+    <div class="photo-item" data-caption="Mi todo 💛">
+      <img src="fotos/foto6.jpg" alt="Foto 6"/>
+      <div class="caption">Mi todo 💛</div>
+    </div>
+
+    <!--
+      ➕ Para agregar más fotos, copia este bloque:
+
+      <div class="photo-item" data-caption="Tu descripción aquí">
+        <img src="fotos/tu-foto.jpg" alt="Descripción"/>
+        <div class="caption">Tu descripción aquí</div>
+      </div>
+    -->
+
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lbClose">✕</button>
+  <img id="lbImg" src="" alt=""/>
+  <div class="lb-caption" id="lbCaption"></div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="heart">♥</div><br>
+  Desde Lima para Pucallpa · Con amor para Miriam · 1 de Mayo 2025
+</footer>
+
+<script>
+  // ── PÉTALOS ──────────────────────────────────
+  const colors = ['#E8527A','#F7C5D0','#C9973A','#F4A5B7','#FADADD'];
+  const pc = document.getElementById('particles');
+  for (let i = 0; i < 28; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.style.cssText = `
+      left:${Math.random()*100}%;
+      width:${6+Math.random()*10}px; height:${6+Math.random()*10}px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${5+Math.random()*8}s;
+      animation-delay:${Math.random()*10}s;
+      border-radius:${Math.random()>.5?'50% 0 50% 0':'50%'};
+    `;
+    pc.appendChild(p);
+  }
+
+  // ── LIGHTBOX ──────────────────────────────────
+  const lb      = document.getElementById('lightbox');
+  const lbImg   = document.getElementById('lbImg');
+  const lbCap   = document.getElementById('lbCaption');
+  const lbClose = document.getElementById('lbClose');
+
+  document.querySelectorAll('.photo-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const img = item.querySelector('img');
+      lbImg.src = img.src;
+      lbCap.textContent = item.dataset.caption || '';
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  const closeLb = () => { lb.classList.remove('open'); document.body.style.overflow = ''; };
+  lbClose.addEventListener('click', closeLb);
+  lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+
+  // ── REVEAL AL SCROLL ──────────────────────────
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => {
+    el.style.cssText += 'opacity:0; transform:translateY(40px); transition:opacity 0.9s ease, transform 0.9s ease;';
+    obs.observe(el);
+  });
+</script>
+</body>
+</html>
